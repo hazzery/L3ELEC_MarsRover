@@ -1,3 +1,5 @@
+#pragma once
+
 class Coords
 {
   private:
@@ -6,6 +8,6 @@ class Coords
   public:
     Coords(double lat, double lon);
     
-    double getLat();
-    double getLon();
+    double getLat(bool rad);
+    double getLon(bool rad);
 };
