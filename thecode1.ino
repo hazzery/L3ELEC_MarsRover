@@ -13,22 +13,12 @@ Coords stop(-37.67826, 176.12999);
 
 double distance = Coords.getDistance(start, stop);
 
+void initLCD();
+void updateLCD();
+
 void setup()
 {
-  lcd.begin();//initialise LCD
-	lcd.backlight();//Enable backlight
-
-  lcd.setCursor(0,0);
-  lcd.print("Lat: ");
-  lcd.setCursor(0,1);
-  lcd.print("Lon: ");
-  lcd.setCursor(0,2);
-  lcd.print("Fix: ");
-  lcd.setCursor(12,2);
-  lcd.print("Qlt: ");
-  lcd.setCursor(0,3);
-  lcd.print("Sat: ");
-
+  initLCD();
   Serial.begin(115200);//Starts serial comunication with computer
   GPS.begin(9600);//Starts comuntication between GPS and Arduino
 
@@ -66,26 +56,7 @@ void loop()
       Serial.print("Angle: "); Serial.println(GPS.angle);
       Serial.print("Altitude: "); Serial.println(GPS.altitude);
     }
-    lcd.setCursor(5, 0);
-    lcd.print(GPS.latitudeDegrees, 5);
-    
-    lcd.setCursor(18, 0);
-    lcd.print(GPS.lat);
-    
-    lcd.setCursor(5, 1);
-    lcd.print(GPS.longitudeDegrees, 5);
-
-    lcd.setCursor(18, 1);
-    lcd.print(GPS.lon);
-
-    lcd.setCursor(5, 2);
-    lcd.print((int)GPS.fix);
-
-    lcd.setCursor(18, 2);
-    lcd.print((int)GPS.fixquality);
-
-    lcd.setCursor(5, 3);
-    lcd.print((int)GPS.satellites);
+  updateLCD();
   }
   delay(50);
 }
