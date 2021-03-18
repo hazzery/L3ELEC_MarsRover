@@ -1,11 +1,17 @@
 #include <Adafruit_GPS.h>
 #include <LiquidCrystal_I2C.h>
+#include "coords.h"
 
 #define GPSSerial Serial
 #define GPSECHO false
 
 Adafruit_GPS GPS(&GPSSerial);//Define GPS at serial port
 LiquidCrystal_I2C lcd(0x27,16,2);//Define LCD reselution as 16 x 2
+
+Coords start(-37.6774, 176.13032);
+Coords stop(-37.67826, 176.12999);
+
+double distance = Coords.getDistance(start, stop);
 
 void setup()
 {
@@ -61,13 +67,13 @@ void loop()
       Serial.print("Altitude: "); Serial.println(GPS.altitude);
     }
     lcd.setCursor(5, 0);
-    lcd.print(GPS.latitude, 5);
+    lcd.print(GPS.latitudeDegrees, 5);
     
     lcd.setCursor(18, 0);
     lcd.print(GPS.lat);
     
     lcd.setCursor(5, 1);
-    lcd.print(GPS.longitude, 5);
+    lcd.print(GPS.longitudeDegrees, 5);
 
     lcd.setCursor(18, 1);
     lcd.print(GPS.lon);
