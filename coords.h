@@ -10,4 +10,7 @@ class Coords
     
     double getLat(bool rad);
     double getLon(bool rad);
+    
+    static double getDistance(Coords a, Coords b);
+    static double getBearing(Coords a, Coords b);
 };
