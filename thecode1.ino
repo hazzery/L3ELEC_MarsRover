@@ -8,10 +8,10 @@
 Adafruit_GPS GPS(&GPSSerial);//Define GPS at serial port
 LiquidCrystal_I2C lcd(0x27,16,2);//Define LCD reselution as 16 x 2
 
-Coords start(-37.6774, 176.13032);
-Coords stop(-37.67826, 176.12999);
+Coords startingPosition(-37.6774, 176.13032);
+Coords finishingPosition(-37.67826, 176.12999);
 
-double distance = Coords.getDistance(start, stop);
+double totalDistance = Coords::getDistance(startingPosition, finishingPosition);
 
 void initLCD();
 void updateLCD();
@@ -34,6 +34,9 @@ void setup()
 void loop()
 {
   updateLCD();
-  
-  delay(50);
+
+  Coords currentPosition (GPS.latitudeDegrees, GPS.longitudeDegrees);
+  double bearingToFinish = Coords::getBearing(currentPosition, finishingPosition);
+
+  delay(1000);
 }
