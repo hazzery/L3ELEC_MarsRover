@@ -1,5 +1,6 @@
-#include <Adafruit_GPS.h>
 #include <LiquidCrystal_I2C.h>
+#include <Adafruit_GPS.h>
+#include "magnetometer.h"
 #include "coords.h"
 
 #define GPSSerial Serial
@@ -7,6 +8,7 @@
 
 Adafruit_GPS GPS(&GPSSerial);//Define GPS at serial port
 LiquidCrystal_I2C lcd(0x27,16,2);//Define LCD reselution as 16 x 2
+Magnetometer mag(0x0d);
 
 Coords startingPosition(-37.6774, 176.13032);
 Coords finishingPosition(-37.67826, 176.12999);
@@ -37,6 +39,7 @@ void loop()
 
   Coords currentPosition (GPS.latitudeDegrees, GPS.longitudeDegrees);
   double bearingToFinish = Coords::getBearing(currentPosition, finishingPosition);
+  double currentBearing = mag.getBearing();
 
   delay(1000);
 }
