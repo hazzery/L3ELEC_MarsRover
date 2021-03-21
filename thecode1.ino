@@ -2,6 +2,8 @@
 #include <Adafruit_GPS.h>
 #include "magnetometer.h"
 #include "coords.h"
+#include "units.h"
+#include "PID.h"
 
 #define GPSSerial Serial
 #define GPSECHO false

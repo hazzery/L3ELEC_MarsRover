@@ -1,25 +1,29 @@
 #include "coords.h"
+#include <arduino.h>
+#include "units.h"
 
 Coords::Coords(double lat, double lon)
   :lattitude(lat), longitude(lon){}
     
-double Coords::getLat(bool rad = true)
+double Coords::getLat(AngleUnits angleUnit = radians)
 { 
-  if (rad)
-      return lattitude * (3.141592653589793238 / 180);
+  if (angleUnit == radians)
+    return lattitude;
   else
-      return lattitude;
+    return lattitude * RAD_TO_DEG;
 }
-double Coords::getLon(bool rad = true)
+
+double Coords::getLon(AngleUnits angleUnit = radians)
 { 
-  if (rad)
-      return longitude * (3.141592653589793238 / 180);
+  if (angleUnit == radians)
+    return longitude;
   else
-      return longitude;
+    return longitude * RAD_TO_DEG;
 }
-double Coords::getDistance(Coords a, Coords b)
+
+double Coords::getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m)
 {
-  const int earthRadius = 6371;
+  const int earthRadius = 6371000;
  
   //This portion calculates the differences for the Radian latitudes and longitudes and saves them to variables
   double diffLon = b.getLon() - a.getLon();
@@ -28,11 +32,12 @@ double Coords::getDistance(Coords a, Coords b)
   //This portion is the Haversine Formula for distance between two points. Returned value is in KM
   double angle = (sq(sin(diffLat/2))) + cos(a.getLat()) * cos(b.getLat()) * (sq(sin(diffLon/2)));
   double E = 2 * atan2(sqrt(angle), sqrt(1-angle)) ;
-  double distance = earthRadius * E;
+  double distance = (earthRadius * E);
 
-  return distance;
+  return distance / pow(10, (int)distanceUnit);
 }
-double Coords::getBearing(Coords a, Coords b)
+
+double Coords::getBearing(Coords a, Coords b, AngleUnits angleUnit = radians)
 {
   double diffLon = abs(a.getLon() - b.getLon());
 
@@ -42,5 +47,8 @@ double Coords::getBearing(Coords a, Coords b)
 
   double bearing = atan2(y, x);
 
-  return bearing;
+  if (angleUnit == radians)
+    return bearing;
+  else
+    return bearing * RAD_TO_DEG;
 }

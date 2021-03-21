@@ -1,4 +1,5 @@
 #pragma once
+#include "units.h"
 
 class Coords
 {
@@ -6,11 +7,15 @@ class Coords
     double lattitude, longitude;
     
   public:
+    //lat - Lattitudinal angle
+    //lon - Longitudinal angle
+    //units are interpreted as radians.
+    //Use _deg to convert degrees.
     Coords(double lat, double lon);
+
+    double getLat(AngleUnits angleUnit);
+    double getLon(AngleUnits angleUnit);
     
-    double getLat(bool rad);
-    double getLon(bool rad);
-    
-    static double getDistance(Coords a, Coords b);
-    static double getBearing(Coords a, Coords b);
+    static double getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m);
+    static double getBearing(Coords a, Coords b, AngleUnits angleUnit = radians);
 };
