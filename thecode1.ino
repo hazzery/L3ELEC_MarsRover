@@ -33,30 +33,7 @@ void setup()
 
 void loop()
 {
-  char c = GPS.read();//Gets GPS character
-  if (GPSECHO)
-  {
-    if (c)
-      Serial.print(c);
-  }
-
-  if (GPS.newNMEAreceived())//If a new line of NMEA data has been recieved...
-  {
-    Serial.print(GPS.lastNMEA());//...print the last set of NMEA data..
-    if (!GPS.parse(GPS.lastNMEA()))//...and if the last set of data will not pass...
-      return;//...exit the loop.
-  }
-
-  if (millis() - timer > 1000)
-  {
-    timer = millis(); // reset the timer
-    if (GPS.fix)
-    {
-      Serial.print("Speed (knots): "); Serial.println(GPS.speed);
-      Serial.print("Angle: "); Serial.println(GPS.angle);
-      Serial.print("Altitude: "); Serial.println(GPS.altitude);
-    }
   updateLCD();
-  }
+  
   delay(50);
 }
