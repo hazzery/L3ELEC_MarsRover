@@ -1,6 +1,7 @@
 #include "magnetometer.h"
 #include <Arduino.h>
 #include <EEPROM.h>
+#include "units.h"
 #include "Wire.h"
 #include <math.h>
 
@@ -119,11 +120,14 @@ int Magnetometer::getY()
 int Magnetometer::getZ()
 { return z; }
 
-double Magnetometer::getBearing()
+double Magnetometer::getBearing(AngleUnits angleUnit = radians)
 {
   double angle = atan2((float)(x - offsetX),(float)(y - offsetY));
   //  double bearing = (-angle + (2 * PI) ) % (2 * PI);
   double bearing = fmod(-angle + (2 * PI), TWO_PI);
 
-  return bearing;
+  if (angleUnit == radians)
+    return bearing;
+  else
+    return bearing * (180 / PI);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include "units.h"
 
 class Magnetometer
 {
@@ -24,5 +25,5 @@ class Magnetometer
     int getY();
     int getZ();
 
-    double getBearing();
+    double getBearing(AngleUnits angleUnit = radians);
 };
