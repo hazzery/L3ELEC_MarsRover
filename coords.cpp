@@ -1,54 +1,57 @@
+#define DISABLE_PREDEFINED_UNITS
+#define ENABLE_PREDEFINED_LENGTH_UNITS
+#define ENABLE_PREDEFINED_ANGLE_UNITS
+
 #include "coords.h"
-#include <arduino.h>
 #include "units.h"
+// #include <arduino.h>
 
-Coords::Coords(double lat, double lon)
+using namespace units::length;
+using namespace units::angle;
+
+
+Coords::Coords(radian_t lat, radian_t lon)
   :lattitude(lat), longitude(lon){}
-    
-double Coords::getLat(AngleUnits angleUnit = radians)
-{ 
-  if (angleUnit == radians)
-    return lattitude;
-  else
-    return lattitude * RAD_TO_DEG;
-}
+  
+Coords::Coords(degree_t lat, degree_t lon)
+  :lattitude(lat), longitude(lon){}
 
-double Coords::getLon(AngleUnits angleUnit = radians)
+template<typename angleUnit>
+angleUnit Coords::getLat()
 { 
-  if (angleUnit == radians)
-    return longitude;
-  else
-    return longitude * RAD_TO_DEG;
+  return lattitude;
 }
-
-double Coords::getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m)
+template<typename angleUnit>
+angleUnit Coords::getLon()
+{ 
+  return longitude;
+}
+template<typename distanceUnit>
+distanceUnit Coords::getDistance(Coords a, Coords b)
 {
-  const int earthRadius = 6371000;
+  const meter_t earthRadius = 6371000;
  
   //This portion calculates the differences for the Radian latitudes and longitudes and saves them to variables
-  double diffLon = b.getLon() - a.getLon();
-  double diffLat = b.getLat() - a.getLat();
+  radian_t diffLon = b.getLon() - a.getLon();
+  radian_t diffLat = b.getLat() - a.getLat();
  
   //This portion is the Haversine Formula for distance between two points. Returned value is in KM
-  double angle = (sq(sin(diffLat/2))) + cos(a.getLat()) * cos(b.getLat()) * (sq(sin(diffLon/2)));
+  raidian_t angle = (math::sq(math::sin(diffLat/2))) + math::cos(a.getLat()) * math::cos(b.getLat()) * (math::sq(math::sin(diffLon/2)));
   double E = 2 * atan2(sqrt(angle), sqrt(1-angle)) ;
-  double distance = (earthRadius * E);
+  distanceUnit distance = (earthRadius * E);
 
-  return distance / pow(10, (int)distanceUnit);
+  return distance;
 }
-
-double Coords::getBearing(Coords a, Coords b, AngleUnits angleUnit = radians)
+template<typename angleUnit>
+angleUnit Coords::getBearing(Coords a, Coords b)
 {
-  double diffLon = abs(a.getLon() - b.getLon());
+  angleUnit diffLon = math::abs(a.getLon() - b.getLon());
 
-  double x = cos(a.getLat()) * sin(diffLon);
+  angleUnit x = math::cos(a.getLat()) * math::sin(diffLon);
 
-  double y = cos(a.getLat()) * sin(b.getLat()) - sin(a.getLat()) * cos(b.getLat()) * cos(diffLon);
+  angleUnit y = math::cos(a.getLat()) * math::sin(b.getLat()) - math::sin(a.getLat()) * math::cos(b.getLat()) * math::cos(diffLon);
 
-  double bearing = atan2(y, x);
+  angleUnit bearing = math::atan2(y, x);
 
-  if (angleUnit == radians)
-    return bearing;
-  else
-    return bearing * RAD_TO_DEG;
+  return bearing;
 }

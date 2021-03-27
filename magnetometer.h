@@ -1,7 +1,12 @@
 #pragma once
 
-#include <Arduino.h>
+#define DISABLE_PREDEFINED_UNITS
+#define ENABLE_PREDEFINED_ANGLE_UNITS
+
 #include "units.h"
+// #include <Arduino.h>
+
+using namespace units::angle;
 
 class Magnetometer
 {
@@ -25,5 +30,6 @@ class Magnetometer
     int getY();
     int getZ();
 
-    double getBearing(AngleUnits angleUnit = radians);
+    template<typename angleUnit>
+    angleUnit getBearing();
 };

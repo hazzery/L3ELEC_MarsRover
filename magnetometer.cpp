@@ -1,9 +1,21 @@
+#define DISABLE_PREDEFINED_UNITS
+#define ENABLE_PREDEFINED_ANGLE_UNITS
+
 #include "magnetometer.h"
-#include <Arduino.h>
-#include <EEPROM.h>
 #include "units.h"
-#include "Wire.h"
-#include <math.h>
+// #include <math.h>
+// #include <Arduino.h>
+// #include <EEPROM.h>
+// #include "Wire.h"
+
+using namespace units::angle;
+using namespace units::math;
+
+///Help out the linter
+  typedef unsigned char byte;
+  unsigned long millis();
+  void delay(int msec);
+///
 
 Magnetometer::Magnetometer(byte address = 0x0d)
 :addr(address){}
@@ -120,14 +132,12 @@ int Magnetometer::getY()
 int Magnetometer::getZ()
 { return z; }
 
-double Magnetometer::getBearing(AngleUnits angleUnit = radians)
+template<typename angleUnit>
+angleUnit Magnetometer::getBearing()
 {
-  double angle = atan2((float)(x - offsetX),(float)(y - offsetY));
-  //  double bearing = (-angle + (2 * PI) ) % (2 * PI);
-  double bearing = fmod(-angle + (2 * PI), TWO_PI);
+  angleUnit angle = atan2((float)(x - offsetX),(float)(y - offsetY));
+  
+  angleUnit bearing = math::fmod(-angle + (2 * PI), TWO_PI);
 
-  if (angleUnit == radians)
-    return bearing;
-  else
-    return bearing * (180 / PI);
+  return bearing;
 }

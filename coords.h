@@ -1,21 +1,28 @@
 #pragma once
+
+#define DISABLE_PREDEFINED_UNITS
+#define ENABLE_PREDEFINED_LENGTH_UNITS
+#define ENABLE_PREDEFINED_ANGLE_UNITS
+
 #include "units.h"
+
+using namespace units::length;
+using namespace units::angle;
 
 class Coords
 {
   private:
-    double lattitude, longitude;
+    radian_t lattitude, longitude;
     
   public:
     //lat - Lattitudinal angle
     //lon - Longitudinal angle
-    //units are interpreted as radians.
-    //Use _deg to convert degrees.
-    Coords(double lat, double lon);
+    Coords(radian_t lat, radian_t lon);
+    Coords(degree_t lat, degree_t lon);
 
-    double getLat(AngleUnits angleUnit);
-    double getLon(AngleUnits angleUnit);
+    template<typename angleUnit> angleUnit getLat();
+    template<typename angleUnit> angleUnit getLon();
     
-    static double getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m);
-    static double getBearing(Coords a, Coords b, AngleUnits angleUnit = radians);
+    template<typename distanceUnit> static distanceUnit getDistance(Coords a, Coords b);
+    template<typename angleUnit> static angleUnit  getBearing(Coords a, Coords b);
 };
