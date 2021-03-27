@@ -1,22 +1,29 @@
-#include <LiquidCrystal_I2C.h>
-#include <Adafruit_GPS.h>
+#define DISABLE_PREDEFINED_UNITS
+#define ENABLE_PREDEFINED_LENGTH_UNITS
+#define ENABLE_PREDEFINED_ANGLE_UNITS
+
 #include "magnetometer.h"
 #include "coords.h"
 #include "units.h"
 #include "PID.h"
+#include <LiquidCrystal_I2C.h>
+#include <Adafruit_GPS.h>
 
-#define GPSSerial Serial
-#define GPSECHO false
+using namespace units::length;
+using namespace units::angle;
+using namespace units::literals;
 
-Adafruit_GPS GPS(&GPSSerial);//Define GPS at serial port
-LiquidCrystal_I2C lcd(0x27,20,4);//Define LCD reselution as 16 x 2
+
+Adafruit_GPS GPS(&Serial);//Define GPS at serial port
+LiquidCrystal_I2C lcd(0x27,20,4);//Define LCD reselution as 20 x 4
 Magnetometer mag(0x0d);
-PID bearingPID(1.0, 0.0, 0.0);
+// PID bearingPID(1.0, 0.0, 0.0);
+// PID distancePID(1.0, 0.0, 0.0);
 
-Coords startingPosition(-37.6774, 176.13032);
-Coords finishingPosition(-37.67826, 176.12999);
+Coords startingPosition(-37.6774_deg, 176.13032_deg);
+Coords finishingPosition(-37.67826_deg, 176.12999_deg);
 
-double totalDistance = Coords::getDistance(startingPosition, finishingPosition);
+meter_t totalDistance = Coords::getDistance<meter_t>(startingPosition, finishingPosition);
 
 // void initLCD();
 // void updateLCD();
@@ -33,7 +40,7 @@ void setup()
 
   delay(1000);
 
-  GPSSerial.println(PMTK_Q_RELEASE);//Print release and version of GPS
+  Serial.println(PMTK_Q_RELEASE);//Print release and version of GPS
 
   lcd.begin();//initialise LCD
   lcd.backlight();//Enable backlight
@@ -63,8 +70,8 @@ void loop()
   }
   
   Coords currentPosition (GPS.latitudeDegrees, GPS.longitudeDegrees);
-  double bearingToFinish = Coords::getBearing(currentPosition, finishingPosition, degrees);
-  double currentBearing = mag.getBearing(degrees);
+  radian_t bearingToFinish = Coords::getBearing<radian_t>(currentPosition, finishingPosition);
+  radian_t currentBearing = mag.getBearing<radian_t>();
 
   unsigned long timer;
 
