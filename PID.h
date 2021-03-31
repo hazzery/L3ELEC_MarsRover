@@ -1,6 +1,7 @@
 #pragma once
 
-class PID {
+class PID
+{
     
     public:
         //Kp -  Proportional gain.
