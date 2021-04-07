@@ -5,8 +5,8 @@ class Motor
     public:
         Motor(int PinOne, int PinTwo, int PwmPin);
 
-        void drive(short speed);
-        void stop();
+        void drive(char speed);
+        void stop(BrakeMode mode = Coast);
 
     private:
         int pinOne, pinTwo, pwmPin;
@@ -17,6 +17,11 @@ class Motor
 
 enum Direction : bool
 {
-  forwards = true,
-  backwards = false,
+  Forwards = true,
+  Backwards = false,
+};
+enum BrakeMode : bool
+{
+  Brake = true,
+  Coast = false,
 };

@@ -5,19 +5,28 @@ Motor::Motor(int PinOne, int PinTwo, int PwmPin)
 
 void Motor::setSpeed(byte speed)
 {
-
+    analogWrite(pwmPin, speed);
 }
 void Motor::setDirection(Direction dir)
 {
-
+    if(dir == Forwards)
+    {
+        digitalWrite(pinOne, LOW);
+        digitalWrite(pinTwo, HIGH);
+    }
+    else
+    {
+        digitalWrite(pinOne, HIGH);
+        digitalWrite(pinTwo, LOW);
+    }
 }
 
-void Motor::drive(short speed)
+void Motor::drive(char speed)
 {
     if(speed < 0)
-        setDirection(backwards);
+        setDirection(Backwards);
     else if(speed > 0)
-        setDirection(forwards);
+        setDirection(Forwards);
     else
     {
         stop();
@@ -26,7 +35,16 @@ void Motor::drive(short speed)
     setSpeed(abs(speed));
 
 }
-void Motor::stop()
+void Motor::stop(BrakeMode mode = Coast)
 {
-
+    if(mode == Coast)
+    {
+        digitalWrite(pinOne, HIGH);
+        digitalWrite(pinTwo, HIGH);
+    }
+    else
+    {
+        digitalWrite(pinOne, LOW);
+        digitalWrite(pinTwo, LOW);
+    }
 }
