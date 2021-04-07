@@ -1,5 +1,18 @@
 #pragma once
 
+#include <arduino.h>
+
+enum Direction : bool
+{
+  Forwards = true,
+  Backwards = false,
+};
+enum BrakeMode : bool
+{
+  Brake = true,
+  Coast = false,
+};
+
 class Motor
 {
   public:
@@ -14,15 +27,4 @@ class Motor
 
     void setSpeed(byte speed);
     void setDirection(Direction dir);
-};
-
-enum Direction : bool
-{
-  Forwards = true,
-  Backwards = false,
-};
-enum BrakeMode : bool
-{
-  Brake = true,
-  Coast = false,
 };
