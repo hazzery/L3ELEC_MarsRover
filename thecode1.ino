@@ -2,6 +2,7 @@
 #include <Adafruit_GPS.h>
 #include "magnetometer.h"
 #include "coords.h"
+#include "motors.h"
 #include "units.h"
 #include "PID.h"
 
@@ -12,6 +13,8 @@ Adafruit_GPS GPS(&GPSSerial);//Define GPS at serial port
 LiquidCrystal_I2C lcd(0x27,20,4);//Define LCD reselution as 16 x 2
 Magnetometer mag(0x0d);
 PID bearingPID(1.0, 0.0, 0.0);
+Motor leftDrive(2, 3, 6);
+Motor rightDrive(4, 5, 7);
 
 Coords startingPosition(-37.6774, 176.13032);
 Coords finishingPosition(-37.67826, 176.12999);
@@ -46,6 +49,11 @@ void setup()
   lcd.print("CuBr: ");
   lcd.setCursor(0,3);
   lcd.print("Br2F: ");
+
+  leftDrive.init();
+  rightDrive.init();
+  leftDrive.drive(255);
+  rightDrive.drive(255);
 }
 
 void loop()
