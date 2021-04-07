@@ -3,6 +3,13 @@
 Motor::Motor(int PinOne, int PinTwo, int PwmPin)
 :pinOne(PinOne), pinTwo(PinTwo), pwmPin(PwmPin) {}
 
+void Motor::init()
+{
+    pinMode(pinOne, OUTPUT);
+    pinMode(pinTwo, OUTPUT);
+    pinMode(pwmPin, OUTPUT);
+}
+
 void Motor::setSpeed(byte speed)
 {
     analogWrite(pwmPin, speed);

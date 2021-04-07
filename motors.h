@@ -2,17 +2,18 @@
 
 class Motor
 {
-    public:
-        Motor(int PinOne, int PinTwo, int PwmPin);
+  public:
+    Motor(int PinOne, int PinTwo, int PwmPin);
 
-        void drive(char speed);
-        void stop(BrakeMode mode = Coast);
+      void init();
+      void drive(char speed);
+      void stop(BrakeMode mode = Coast);
 
-    private:
-        int pinOne, pinTwo, pwmPin;
+  private:
+    int pinOne, pinTwo, pwmPin;
 
-        void setSpeed(byte speed);
-        void setDirection(Direction dir);
+    void setSpeed(byte speed);
+    void setDirection(Direction dir);
 };
 
 enum Direction : bool
