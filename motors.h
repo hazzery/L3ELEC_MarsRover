@@ -18,7 +18,6 @@ class Motor
   public:
     Motor(int PinOne, int PinTwo, int PwmPin);
 
-      void init();
       void drive(char speed);
       void stop(BrakeMode mode = Coast);
 

@@ -1,9 +1,7 @@
 #include "motors.h"
 
 Motor::Motor(int PinOne, int PinTwo, int PwmPin)
-:pinOne(PinOne), pinTwo(PinTwo), pwmPin(PwmPin) {}
-
-void Motor::init()
+:pinOne(PinOne), pinTwo(PinTwo), pwmPin(PwmPin)
 {
     pinMode(pinOne, OUTPUT);
     pinMode(pinTwo, OUTPUT);
