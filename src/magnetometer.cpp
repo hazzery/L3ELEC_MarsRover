@@ -1,9 +1,9 @@
-#include "magnetometer.h"
+#include "../include/magnetometer.h"
+#include "../include/units.h"
 #include <Arduino.h>
 #include <EEPROM.h>
-#include "units.h"
-#include "Wire.h"
 #include <math.h>
+#include "Wire.h"
 
 Magnetometer::Magnetometer(byte address = 0x0d)
 :addr(address){}

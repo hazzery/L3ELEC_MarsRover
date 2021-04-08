@@ -1,10 +1,10 @@
 #include <LiquidCrystal_I2C.h>
 #include <Adafruit_GPS.h>
 #include "magnetometer.h"
-#include "coords.h"
-#include "motors.h"
-#include "units.h"
-#include "PID.h"
+#include "include/coords.h"
+#include "include/motors.h"
+#include "include/units.h"
+#include "include/PID.h"
 
 #define GPSSerial Serial
 #define GPSECHO false

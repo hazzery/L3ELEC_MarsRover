@@ -1,4 +1,4 @@
-#include "motors.h"
+#include "../include/motors.h"
 
 Motor::Motor(int PinOne, int PinTwo, int PwmPin)
 :pinOne(PinOne), pinTwo(PinTwo), pwmPin(PwmPin)

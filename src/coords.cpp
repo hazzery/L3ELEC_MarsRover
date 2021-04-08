@@ -1,6 +1,6 @@
-#include "coords.h"
+#include "../include/coords.h"
+#include "../include/units.h"
 #include <arduino.h>
-#include "units.h"
 
 Coords::Coords(double lat, double lon)
   :lattitude(lat), longitude(lon){}
