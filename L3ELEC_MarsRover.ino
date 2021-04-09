@@ -1,6 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <Adafruit_GPS.h>
-#include "magnetometer.h"
+#include "include/magnetometer.h"
 #include "include/coords.h"
 #include "include/motors.h"
 #include "include/units.h"
@@ -50,8 +50,6 @@ void setup()
   lcd.setCursor(0,3);
   lcd.print("Br2F: ");
 
-  leftDrive.init();
-  rightDrive.init();
   leftDrive.drive(255);
   rightDrive.drive(255);
 }
