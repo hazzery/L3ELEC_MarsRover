@@ -16,14 +16,14 @@ enum BrakeMode : bool
 class Motor
 {
   public:
-    Motor(int PinOne, int PinTwo, int PwmPin);
+    Motor(int ForwardPin, int backwardPin, int PwmPin);
 
-      void drive(char speed);
+      void drive(short speed);
       void stop(BrakeMode mode = Coast);
+      void setSpeed(uint8_t speed);
+      void setDirection(Direction dir);
 
   private:
-    int pinOne, pinTwo, pwmPin;
+    int forwardPin, backwardPin, pwmPin;
 
-    void setSpeed(byte speed);
-    void setDirection(Direction dir);
 };

@@ -1,32 +1,33 @@
 #include "../include/motors.h"
 
-Motor::Motor(int PinOne, int PinTwo, int PwmPin)
-:pinOne(PinOne), pinTwo(PinTwo), pwmPin(PwmPin)
+Motor::Motor(int ForwardPin, int BackwardPin, int PwmPin)
+:forwardPin(ForwardPin), backwardPin(BackwardPin), pwmPin(PwmPin)
 {
-    pinMode(pinOne, OUTPUT);
-    pinMode(pinTwo, OUTPUT);
+    pinMode(forwardPin, OUTPUT);
+    pinMode(backwardPin, OUTPUT);
     pinMode(pwmPin, OUTPUT);
 }
 
-void Motor::setSpeed(byte speed)
+void Motor::setSpeed(uint8_t speed)
 {
     analogWrite(pwmPin, speed);
 }
+
 void Motor::setDirection(Direction dir)
 {
     if(dir == Forwards)
     {
-        digitalWrite(pinOne, LOW);
-        digitalWrite(pinTwo, HIGH);
+        digitalWrite(forwardPin, HIGH);
+        digitalWrite(backwardPin, LOW);
     }
     else
     {
-        digitalWrite(pinOne, HIGH);
-        digitalWrite(pinTwo, LOW);
+        digitalWrite(forwardPin, LOW);
+        digitalWrite(backwardPin, HIGH);
     }
 }
 
-void Motor::drive(char speed)
+void Motor::drive(short speed)
 {
     if(speed < 0)
         setDirection(Backwards);
@@ -38,18 +39,18 @@ void Motor::drive(char speed)
         return;
     }
     setSpeed(abs(speed));
-
 }
+
 void Motor::stop(BrakeMode mode = Coast)
 {
     if(mode == Coast)
     {
-        digitalWrite(pinOne, HIGH);
-        digitalWrite(pinTwo, HIGH);
+        digitalWrite(forwardPin, HIGH);
+        digitalWrite(backwardPin, HIGH);
     }
     else
     {
-        digitalWrite(pinOne, LOW);
-        digitalWrite(pinTwo, LOW);
+        digitalWrite(forwardPin, LOW);
+        digitalWrite(backwardPin, LOW);
     }
 }

@@ -4,6 +4,7 @@
 #include "include/coords.h"
 #include "include/motors.h"
 #include "include/units.h"
+#include "include/robot.h"
 #include "include/PID.h"
 
 #define GPSSerial Serial
@@ -15,6 +16,7 @@ Magnetometer mag(0x0d);
 PID bearingPID(1.0, 0.0, 0.0);
 Motor leftDrive(2, 3, 6);
 Motor rightDrive(4, 5, 7);
+Robot rover(&leftDrive, &rightDrive);
 
 Coords startingPosition(-37.6774, 176.13032);
 Coords finishingPosition(-37.67826, 176.12999);
@@ -50,53 +52,51 @@ void setup()
   lcd.setCursor(0,3);
   lcd.print("Br2F: ");
 
-  leftDrive.drive(255);
-  rightDrive.drive(255);
+  rover.drive(255);
 }
 
 void loop()
 {
-  // updateLCD();
+ // updateLCD();
 
-  char c = GPS.read();
-  if (GPSECHO)
-    if (c) Serial.print(c);
-  if (GPS.newNMEAreceived())
-  {
-    Serial.print(GPS.lastNMEA()); // this also sets the newNMEAreceived() flag to false
-    if (!GPS.parse(GPS.lastNMEA())) // this also sets the newNMEAreceived() flag to false
-      return; // we can fail to parse a sentence in which case we should just wait for another
-  }
-  
-  Coords currentPosition (GPS.latitudeDegrees, GPS.longitudeDegrees);
-  double bearingToFinish = Coords::getBearing(currentPosition, finishingPosition, degrees);
-  double currentBearing = mag.getBearing(degrees);
+ char c = GPS.read();
+ if (GPSECHO)
+   if (c) Serial.print(c);
+ if (GPS.newNMEAreceived())
+ {
+   Serial.print(GPS.lastNMEA()); // this also sets the newNMEAreceived() flag to false
+   if (!GPS.parse(GPS.lastNMEA())) // this also sets the newNMEAreceived() flag to false
+     return; // we can fail to parse a sentence in which case we should just wait for another
+ }
+ 
+ Coords currentPosition (GPS.latitudeDegrees, GPS.longitudeDegrees);
+ double bearingToFinish = Coords::getBearing(currentPosition, finishingPosition, degrees);
+ double currentBearing = mag.getBearing(degrees);
 
-  unsigned long timer;
+ unsigned long timer;
 
-  if (millis() - timer > 2000)
-  {
-    timer = millis(); // reset the timer
-    
-    lcd.setCursor(5, 0);
-    lcd.print(GPS.latitude, 5);
-    
-    lcd.setCursor(18, 0);
-    lcd.print(GPS.lat);
-    
-    lcd.setCursor(5, 1);
-    lcd.print(GPS.longitude, 5);
+ if (millis() - timer > 2000)
+ {
+   timer = millis(); // reset the timer
+   
+   lcd.setCursor(5, 0);
+   lcd.print(GPS.latitude, 5);
+   
+   lcd.setCursor(18, 0);
+   lcd.print(GPS.lat);
+   
+   lcd.setCursor(5, 1);
+   lcd.print(GPS.longitude, 5);
 
-    lcd.setCursor(18, 1);
-    lcd.print(GPS.lon);
+   lcd.setCursor(18, 1);
+   lcd.print(GPS.lon);
 
-    lcd.setCursor(6, 2);
-    lcd.print(currentBearing);
+   lcd.setCursor(6, 2);
+   lcd.print(currentBearing);
 
-    lcd.setCursor(6, 3);
-    lcd.print(bearingToFinish);
-  }
-
-  // bearingPID.calculate(currentBearing);
-  // double motorOutput = bearingPID.output();
+   lcd.setCursor(6, 3);
+   lcd.print(bearingToFinish);
+ }
+ // bearingPID.calculate(currentBearing);
+ // double motorOutput = bearingPID.output();
 }
