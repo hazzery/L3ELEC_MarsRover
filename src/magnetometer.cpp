@@ -1,8 +1,8 @@
 #define DISABLE_PREDEFINED_UNITS
 #define ENABLE_PREDEFINED_ANGLE_UNITS
 
-#include "magnetometer.h"
-#include "units.h"
+#include "../include/magnetometer.h"
+#include "../include/units.h"
 // #include <math.h>
 // #include <Arduino.h>
 // #include <EEPROM.h>

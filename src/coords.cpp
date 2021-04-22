@@ -2,8 +2,8 @@
 #define ENABLE_PREDEFINED_LENGTH_UNITS
 #define ENABLE_PREDEFINED_ANGLE_UNITS
 
-#include "coords.h"
-#include "units.h"
+#include "../include/coords.h"
+#include "../include/units.h"
 // #include <arduino.h>
 
 using namespace units::length;

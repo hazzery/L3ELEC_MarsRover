@@ -2,10 +2,10 @@
 #define ENABLE_PREDEFINED_LENGTH_UNITS
 #define ENABLE_PREDEFINED_ANGLE_UNITS
 
-#include "magnetometer.h"
-#include "coords.h"
-#include "units.h"
-#include "PID.h"
+#include "include/magnetometer.h"
+#include "include/coords.h"
+#include "include/units.h"
+#include "include/PID.h"
 #include <LiquidCrystal_I2C.h>
 #include <Adafruit_GPS.h>
 
