@@ -2,9 +2,6 @@
 #include <arduino.h>
 #include "Wire.h"
 
-Gyro::Gyro(uint8_t Address)
- : address(Address) {}
-
 void Gyro::init()
 {
   Wire.begin();
@@ -17,7 +14,6 @@ void Gyro::init()
   delay(1000);
 }
  
-
 int Gyro::FunctionsPitchRoll(double A, double B, double C)
 {
   double DatoA, DatoB, Value;

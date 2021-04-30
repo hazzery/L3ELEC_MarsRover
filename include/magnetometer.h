@@ -1,21 +1,20 @@
 #pragma once
 
 #include <Arduino.h>
+#include "I2CDevice.h"
 #include "units.h"
 
-class Magnetometer
+class Magnetometer : public I2CDevice
 {
+  using I2CDevice::I2CDevice;
+
   private:
-    byte addr;
     int x, maxX, minX, offsetX;
     int y, maxY, minY, offsetY;
     int z, maxZ, minZ, offsetZ;
     
   public:
-    Magnetometer(byte address);
-    
     void init();
-    void writeToRegistery(byte registryAddr, byte dataByte);
     bool ready();
     void readRawData();
     void calculateOffsets();
