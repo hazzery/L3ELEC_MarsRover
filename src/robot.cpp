@@ -1,4 +1,5 @@
 #include "../include/robot.h"
+#include <arduino.h>
 
 Robot::Robot(Motor *left, Motor* right)
 :leftDrive(left), rightDrive(right){}
