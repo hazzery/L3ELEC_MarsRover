@@ -1,4 +1,5 @@
 #include "../include/motors.h"
+#include <arduino.h>
 
 Motor::Motor(int ForwardPin, int BackwardPin, int PwmPin)
 :forwardPin(ForwardPin), backwardPin(BackwardPin), pwmPin(PwmPin)

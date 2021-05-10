@@ -2,22 +2,15 @@
 #include <arduino.h>
 #include "Wire.h"
 
-Gyro::Gyro(uint8_t Address)
- : address(Address) {}
-
 void Gyro::init()
 {
   Wire.begin();
 
-  Wire.beginTransmission(address);
-  Wire.write(0x6B);  // PWR_MGMT_1 register
-  Wire.write(0);     // set to zero (wakes up the MPU-6050)
-  Wire.endTransmission(true);
+  writeToRegistery(0x6B, 0);
 
   delay(1000);
 }
  
-
 int Gyro::FunctionsPitchRoll(double A, double B, double C)
 {
   double DatoA, DatoB, Value;
@@ -37,7 +30,7 @@ void Gyro::Functions()
   Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
   Wire.endTransmission(false);
 
-  Wire.requestFrom(address, 6, true);  // request a total of 14 registers
+  Wire.requestFrom((int)address, 6, true);  // request a total of 14 registers
   AcX = Wire.read() << 8 | Wire.read();      
   AcY = Wire.read() << 8 | Wire.read();  
   AcZ = Wire.read() << 8 | Wire.read();
