@@ -9,6 +9,8 @@ class Gyro : public I2CDevice
   private:
     uint8_t address;
 
+    int AcX, AcY, AcZ;
+
   public:
     void init();
     int FunctionsPitchRoll(double A, double B, double C);

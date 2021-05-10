@@ -30,7 +30,7 @@ void Gyro::Functions()
   Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
   Wire.endTransmission(false);
 
-  Wire.requestFrom(address, 6, true);  // request a total of 14 registers
+  Wire.requestFrom((int)address, 6, true);  // request a total of 14 registers
   AcX = Wire.read() << 8 | Wire.read();      
   AcY = Wire.read() << 8 | Wire.read();  
   AcZ = Wire.read() << 8 | Wire.read();

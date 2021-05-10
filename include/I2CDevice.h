@@ -9,7 +9,5 @@ class I2CDevice
 
   protected:
     void writeToRegistery(uint8_t registryAddr, uint8_t dataByte);
-
-  private:
     uint8_t address;
 };

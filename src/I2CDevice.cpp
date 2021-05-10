@@ -1,4 +1,5 @@
 #include "../include/I2CDevice.h"
+#include "Wire.h"
 
 I2CDevice::I2CDevice()
  :address(0) {}
