@@ -1,4 +1,5 @@
 #include "../include/magnetometer.h"
+#include "../include/I2CDevice.h"
 #include "../include/units.h"
 #include <Arduino.h>
 #include <EEPROM.h>
@@ -7,8 +8,10 @@
 
 void Magnetometer::init()//Initialize magnetometer.
 {
+  delay(10);
+  
   Wire.begin();//Start I2C communication for magnetometer.
-
+ 
   writeToRegistery(0x0b, 1);//Tell the magnetometer to run in continuous mode.
   writeToRegistery(0x09, B00000001); 
 }
@@ -25,8 +28,8 @@ bool Magnetometer::ready()//Is the magnetometer ready?
 
 void Magnetometer::readRawData()//Gets raw xyz data from magnetometer.
 { 
-  if (!ready())
-    return;
+  // if (!ready())
+  //   return;
 
   Wire.beginTransmission(address);//Begin communication with magnetometer.
   Wire.write(0x00);//Tell magnetometer to start reading from register zero.
@@ -111,12 +114,14 @@ int Magnetometer::getZ()
 
 double Magnetometer::getBearing(AngleUnits angleUnit = radians)
 {
+  readRawData();
+
   double angle = atan2((float)(x - offsetX),(float)(y - offsetY));
-  //  double bearing = (-angle + (2 * PI) ) % (2 * PI);
-  double bearing = fmod(-angle + (2 * PI), TWO_PI);
+  //  double bearing = (-angle + (TWO_PI) ) % (TWO_PI);
+  double bearing = fmod(-angle + (TWO_PI), TWO_PI);
 
   if (angleUnit == radians)
     return bearing;
   else
-    return bearing * (180 / PI);
+    return bearing * (RAD_TO_DEG);
 }
