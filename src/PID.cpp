@@ -13,7 +13,7 @@ short sgn(double n)
 
 //PID class constructor, sets member variables
 PID::PID(double kp, double ki, double kd)
-    :_Kp(kp), _Ki(ki), _Kd(kd), _min(-12000), _max(12000), _maxTime(9999), _maxError(5), _integralLimit(9999), _minDerivative(0) {}
+    :_Kp(kp), _Ki(ki), _Kd(kd), _min(-255), _max(255), _maxTime(9999), _maxError(5), _integralLimit(999), _minDerivative(0) {}
 
 PID::PID()
     :_Kp(0), _Ki(0), _Kd(0), _min(0), _max(0), _maxTime(9999), _maxError(10),  _integralLimit(9999), _minDerivative(10) {}
@@ -26,7 +26,7 @@ void PID::calculate(double sensorVal)
     _error = _target - sensorVal;//Calculate error.
     
     //Calculate integral (If conditions are met).
-    if(abs(_error) > 750)
+    if(abs(_error) > 180)
         _integral = 0;
     else if (_error == 0)
         _integral = 0;
