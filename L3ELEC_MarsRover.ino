@@ -13,7 +13,7 @@
 // Adafruit_GPS GPS(&GPSSerial);//Define GPS at serial port
 
 Magnetometer mag(0x0d);
-PID bearingPID(1.0, 0.0, 0.0);
+PID bearingPID(1.4, 0.0, 0.0);
 PID distancePID(1.0, 0.0, 0.0);
 Motor leftDrive(2, 3, 6);
 Motor rightDrive(4, 5, 7);
@@ -39,30 +39,23 @@ void setup()
   // delay(1000);
 
   // GPSSerial.println(PMTK_Q_RELEASE);//Print release and version of GPS
+  bearingPID.setTarget(180);
 }
 
 void loop()
 {
-  double currentBearing = mag.getBearing(degrees);
-  //21.31° E  ± 0.35°  changing by  0.09° E per year
+  double currentBearing = mag.getBearing(degrees);//21.31° E  ± 0.35°  changing by  0.09° E per year
 
-  Serial.print("Current: ");
-  Serial.println(currentBearing);
-
-  bearingPID.setTarget(180);
   bearingPID.calculate(currentBearing);
   double motorPower = bearingPID.output();
 
+  Serial.print("Current: ");
+  Serial.println(currentBearing);
   Serial.print("_Output: ");
   Serial.println(motorPower);
-
   Serial.println("");
-  // Serial.print("x: ");
-  // Serial.println(mag.getX());
-  // Serial.print("y: ");
-  // Serial.println(mag.getY());
-  // Serial.print("z: ");
-  // Serial.println(mag.getZ());
+
+  rover.turn(motorPower);
 
   delay(50);
 }
