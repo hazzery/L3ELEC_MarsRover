@@ -7,6 +7,7 @@
 class Magnetometer : public I2CDevice
 {
   using I2CDevice::I2CDevice;
+  using I2CDevice::writeToRegistery;
 
   private:
     int x, maxX, minX, offsetX;
