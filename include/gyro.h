@@ -6,13 +6,12 @@ class Gyro : public I2CDevice
 {
   using I2CDevice::I2CDevice;
 
-  private:
-    uint8_t address;
-
-    int AcX, AcY, AcZ;
-
   public:
     void init();
-    int FunctionsPitchRoll(double A, double B, double C);
+    int FunctionsPitchRoll(double axisX, double axisY, double axisZ);
     void Functions();
+    
+  private:
+    uint8_t _address;
+    int _accelerationX, _accelerationY, _accelerationZ;
 };
