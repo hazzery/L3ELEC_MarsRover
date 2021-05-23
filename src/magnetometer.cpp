@@ -13,7 +13,7 @@ void Magnetometer::init()//Initialize magnetometer.
   Wire.begin();//Start I2C communication for magnetometer.
  
   writeToRegistery(0x0b, 1);//Tell the magnetometer to run in continuous mode.
-  writeToRegistery(0x09, B00000001); 
+  writeToRegistery(0x09, 1); 
 }
 
 bool Magnetometer::ready()//Is the magnetometer ready?
