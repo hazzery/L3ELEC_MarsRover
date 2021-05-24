@@ -11,10 +11,11 @@ void Accelerometer::init()
   
   writeToRegistery(0x6B, 0x80);       // Write 1 to the DEVICE_RESET register
   delay(100);                         // 100 ms wait (defined in data sheet)
-
-  writeToRegistery(0x6B, B00101000);  // Set CYCLE to 1, set SLEEP to 0, and set TEMP_DIS to 1 as staed in data sheet
+  writeToRegistery(0x68, 0x07);       // Write 1 to the DEVICE_RESET register
   delay(100);
+  
   writeToRegistery(0x6C, B11000111);  // Sets accelerometer frequencey to 40hz and put gyro into standby
+  writeToRegistery(0x6B, B00101000);  // Set CYCLE to 1, set SLEEP to 0, and set TEMP_DIS to 1 as staed in data sheet
 }
  
 int Accelerometer::FunctionsPitchRoll(double axisX, double axisY, double axisZ)
