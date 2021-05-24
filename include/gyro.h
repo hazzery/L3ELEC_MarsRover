@@ -5,6 +5,7 @@
 class Gyro : public I2CDevice
 {
   using I2CDevice::I2CDevice;
+  using I2CDevice::writeToRegistery;
 
   public:
     void init();
