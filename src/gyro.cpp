@@ -7,17 +7,14 @@
 
 void Gyro::init()
 { 
-  _address = 0x68; // Base address of MPU
-  Wire.begin();
-  // writeToRegistery(0x6B, 0);  // PWR_MGMT_1 register
+  Wire.begin();                       //Begin I2C communication
   
-  // This how I might do it
-  
-  writeToRegistery(0x6B, 0x80);     // Write 1 to the DEVICE_RESET register
-  delay(100);                       // 100 ms wait (defined in data sheet)
-  writeToRegistery(_address, 0x7);  // Write 1 to the 3 SIGNAL_PATH_RESET registers
-  delay(100);                       // GYRO_RESET, ACCEL_RESET and TEMP_RESET
-  writeToRegistery(0x6B, 0);        // Now wake
+  writeToRegistery(0x6B, 0x80);       // Write 1 to the DEVICE_RESET register
+  delay(100);                         // 100 ms wait (defined in data sheet)
+
+  writeToRegistery(0x6B, B00101000);  // Set CYCLE to 1, set SLEEP to 0, and set TEMP_DIS to 1 as staed in data sheet
+  delay(100);
+  writeToRegistery(0x6C, B11000111);  // Sets accelerometer frequencey to 40hz and put gyro into standby
 }
  
 int Gyro::FunctionsPitchRoll(double axisX, double axisY, double axisZ)
@@ -25,9 +22,9 @@ int Gyro::FunctionsPitchRoll(double axisX, double axisY, double axisZ)
   double DataX, DataY, Value;
   DataX = axisX;
   DataY = (axisY * axisY) + (axisZ * axisZ); // A^2 + B^2 = C^2
-  DataY = sqrt(DataB);                      
+  DataY = sqrt(DataY);                      
   
-  Value = atan2(DataA, DataB); // Solve for angle between two planes
+  Value = atan2(axisX, axisY); // Solve for angle between two planes
   Value = Value * RAD_TO_DEG;
   
   return Value;
