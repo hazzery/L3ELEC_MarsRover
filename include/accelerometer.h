@@ -2,7 +2,7 @@
 #include <arduino.h>
 #include "I2CDevice.h"
 
-class Gyro : public I2CDevice
+class Accelerometer : public I2CDevice
 {
   using I2CDevice::I2CDevice;
   using I2CDevice::writeToRegistery;

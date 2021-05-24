@@ -1,5 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <Adafruit_GPS.h>
+#include "include/accelerometer.h"
 #include "include/magnetometer.h"
 #include "include/coords.h"
 #include "include/motors.h"

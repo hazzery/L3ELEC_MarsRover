@@ -1,11 +1,11 @@
-#include "../include/gyro.h"
+#include "../include/accelerometer.h"
 #include <arduino.h>
 #include "Wire.h"
 
 // MPU 6050 data sheet
 // https://invensense.tdk.com/wp-content/uploads/2015/02/MPU-6000-Register-Map1.pdf
 
-void Gyro::init()
+void Accelerometer::init()
 { 
   Wire.begin();                       //Begin I2C communication
   
@@ -17,7 +17,7 @@ void Gyro::init()
   writeToRegistery(0x6C, B11000111);  // Sets accelerometer frequencey to 40hz and put gyro into standby
 }
  
-int Gyro::FunctionsPitchRoll(double axisX, double axisY, double axisZ)
+int Accelerometer::FunctionsPitchRoll(double axisX, double axisY, double axisZ)
 {
   double DataX, DataY, Value;
   DataX = axisX;
@@ -30,7 +30,7 @@ int Gyro::FunctionsPitchRoll(double axisX, double axisY, double axisZ)
   return Value;
 }
 
-void Gyro::Functions()
+void Accelerometer::Functions()
 {
   Wire.beginTransmission(_address);
   Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
