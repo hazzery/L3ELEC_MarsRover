@@ -1,30 +1,19 @@
 #include "../include/PID.h"
 #include <arduino.h>
 
-short sgn(double n)
-{
-    if (n > 0)
-        return 1;
-    else if (n = 0)
-        return 0;
-    else if (n < 0)
-        return -1;
-}
+#define sgn(x) (((x) < 0) ? -(x) : (x))
 
 //PID class constructor, sets member variables
 PID::PID(double kp, double ki, double kd)
     :_Kp(kp), _Ki(ki), _Kd(kd), _min(-255), _max(255), _maxTime(9999), _maxError(5), _integralLimit(999), _minDerivative(0) {}
 
 PID::PID()
-    :_Kp(0), _Ki(0), _Kd(0), _min(0), _max(0), _maxTime(9999), _maxError(10),  _integralLimit(9999), _minDerivative(10) {}
-
-PID::~PID() {}
+    :PID(0,0,0) {}
 
 //PID calculator function runs PID logic and returns power output
-void PID::calculate(double sensorVal)
-{
-    _error = _target - sensorVal;//Calculate error.
-    
+double PID::calculate(double sensorValue)
+{   
+    _error = _target - sensorValue;
     //Calculate integral (If conditions are met).
     if(abs(_error) > 180)
         _integral = 0;
@@ -53,25 +42,19 @@ void PID::calculate(double sensorVal)
     //Save previous error.
     _pastError = _error;
 
-    _out = output;
+    return = output;
 }
 
-bool PID::done() 
+int PID::status() 
 {
-    // if(millis() - _startTime > _maxTime)
-    //     return true;
-    // else if(_derivative < _minDerivative)
-    //     return true;
-    if (abs(_error) <= _maxError)
-        return true;
+    if(millis() - _startTime > _maxTime)
+         return 2;  // Time Out
+    else if(_derivative < _minDerivative)
+         return 3;  // Stuck
+    else if (abs(_error) <= _maxError)
+        return 0;  // Complete
     else
-        return false;
-}
-
-double PID::calculateError(double sensorVal)
-{
-    _error = _target - sensorVal;//Calculate error.
-    return _error;
+        return 1;  // Still going
 }
 
 void PID::setTarget(double target)
@@ -79,9 +62,14 @@ void PID::setTarget(double target)
     _target = target;
 }
 
-void PID::startTimer()
+void PID::start()
 {
     _startTime = millis();
+}
+
+void PID::stop()
+{
+    _out = 0;
 }
 
 void PID::resetPID()
@@ -91,6 +79,3 @@ void PID::resetPID()
     _integral = 0;
     _derivative = 0;
 }
-
-double PID::output()
-{ return _out; }
