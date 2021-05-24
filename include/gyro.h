@@ -12,6 +12,5 @@ class Gyro : public I2CDevice
     void Functions();
     
   private:
-    uint8_t _address;
     int _accelerationX, _accelerationY, _accelerationZ;
 };
