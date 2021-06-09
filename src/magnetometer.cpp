@@ -18,24 +18,26 @@ void Magnetometer::init()//Initialize magnetometer.
 
 bool Magnetometer::ready()//Is the magnetometer ready?
 {
-  Wire.beginTransmission(address);//Begin communication with magnetometer.
-  Wire.write(0x06);//Tell magnetometer we want to read from register 6.
-  Wire.requestFrom(address, (byte)1);//Tell magnetometer we want 1 byte.
-  byte readData = Wire.read() & (byte)1;//Read the data from the megnetometer.
-  Wire.endTransmission();//End communication with magnetometer.
-  return readData;//Return the data we read.
+  //Tell magnetometer we want to read from register 6.
+  Wire.beginTransmission(_address);
+  Wire.write(0x06);
+
+  Wire.requestFrom(_address, 1);//Tell magnetometer we want 1 byte.
+  byte readData = Wire.read() & 1;//Read the data from the magnetometer.
+
+  Wire.endTransmission();
+  return readData;
 }
 
 void Magnetometer::readRawData()//Gets raw xyz data from magnetometer.
 { 
-  // if (!ready())
-  //   return;
-
-  Wire.beginTransmission(address);//Begin communication with magnetometer.
-  Wire.write(0x00);//Tell magnetometer to start reading from register zero.
-  Wire.endTransmission();//End communication with magnetometer.
+  //Tell magnetometer to start reading from register zero.
+  Wire.beginTransmission(_address);
+  Wire.write(0x00);
+  Wire.endTransmission();
   
-  Wire.requestFrom(address, (byte)6);//Tell megnetometer we want 6 bytes.
+  //Tell megnetometer we want 6 bytes.
+  Wire.requestFrom(_address, (byte)6);
 
   x = (int16_t)(Wire.read() | Wire.read() << 8);//Save x ordinate.
   y = (int16_t)(Wire.read() | Wire.read() << 8);//Save y ordinate.
@@ -44,6 +46,7 @@ void Magnetometer::readRawData()//Gets raw xyz data from magnetometer.
 
 void Magnetometer::calculateOffsets()
 {
+  //Set offset values to average of maximum and minimum values.
   offsetX = (maxX + minX) / 2;
   offsetY = (maxY + minY) / 2;
 }
@@ -53,7 +56,7 @@ void Magnetometer::calibrate()
   const int calibrationLength = 10000;//Length of calibration - in ms.
   const int eepromAddress = 66;//Start address for EEPROM.
 
-  unsigned long startTime = millis();//Time at start of calibration
+  unsigned long startTime = millis();//Time at start of calibration.
   
   bool calibrating = 1;
   byte startCal = 1;
@@ -61,7 +64,8 @@ void Magnetometer::calibrate()
   while (!ready());
 	readRawData();
 
-  maxX = minX = x;//Set initial values to current magnetometer readings.
+  //Set initial values to current magnetometer readings.
+  maxX = minX = x;
   maxY = minY = y;
 
   while(calibrating)
@@ -70,13 +74,14 @@ void Magnetometer::calibrate()
     {
       readRawData();
 
+      //Store maximum and minimum values from magnetometer.
       if (x > maxX) maxX = x;
       else if (x < minX) minX = x;
       if (y > maxY) maxY = y;
       else if (y < minY) minY = y;
     }
       
-  
+    //Time calculations.
     int timeDifference  = millis() - startTime;
     int secs = (int)((calibrationLength - timeDifference + 1000) / 1000);
     Serial.print("Calibrating, ");
@@ -88,6 +93,7 @@ void Magnetometer::calibrate()
       calculateOffsets();
       calibrating = 0;
 
+      //Store maximum and minimum values to permanent storage on Arduino.
       int EEAddr = eepromAddress;
       EEPROM.put(EEAddr, minX);
       EEAddr += sizeof(minX);
@@ -116,8 +122,8 @@ double Magnetometer::getBearing(AngleUnits angleUnit = radians)
 {
   readRawData();
 
+  //Calculate bearing between from magnetic north
   double angle = atan2((float)(x - offsetX),(float)(y - offsetY));
-  //  double bearing = (-angle + (TWO_PI) ) % (TWO_PI);
   double bearing = fmod(-angle + (TWO_PI), TWO_PI);
 
   if (angleUnit == radians)
