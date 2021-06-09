@@ -5,7 +5,7 @@
 Coords::Coords(double lat, double lon)
   :lattitude(lat), longitude(lon){}
     
-double Coords::getLat(AngleUnits angleUnit = radians)
+double Coords::getLat(AngleUnits angleUnit = radians) const
 { 
   if (angleUnit == radians)
     return lattitude;
@@ -13,7 +13,7 @@ double Coords::getLat(AngleUnits angleUnit = radians)
     return lattitude * RAD_TO_DEG;
 }
 
-double Coords::getLon(AngleUnits angleUnit = radians)
+double Coords::getLon(AngleUnits angleUnit = radians) const
 { 
   if (angleUnit == radians)
     return longitude;
@@ -21,7 +21,7 @@ double Coords::getLon(AngleUnits angleUnit = radians)
     return longitude * RAD_TO_DEG;
 }
 
-double Coords::getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m)
+double Coords::getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m) const
 {
   const int earthRadius = 6371000;
  
@@ -37,7 +37,7 @@ double Coords::getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m)
   return distance / pow(10, (int)distanceUnit);
 }
 
-double Coords::getBearing(Coords a, Coords b, AngleUnits angleUnit = radians)
+double Coords::getBearing(Coords a, Coords b, AngleUnits angleUnit = radians) const
 {
   double diffLon = abs(a.getLon() - b.getLon());
 

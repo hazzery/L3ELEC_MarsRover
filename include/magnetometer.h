@@ -21,9 +21,9 @@ class Magnetometer : public I2CDevice
     void calculateOffsets();
     void calibrate();
     
-    int getX();
-    int getY();
-    int getZ();
+    int getX() const;
+    int getY() const;
+    int getZ() const;
 
     double getBearing(AngleUnits angleUnit = radians);
 };

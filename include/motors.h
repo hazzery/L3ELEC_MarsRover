@@ -24,6 +24,6 @@ class Motor
       void setDirection(Direction dir);
 
   private:
-    int forwardPin, backwardPin, pwmPin;
+    const int forwardPin, backwardPin, pwmPin;
 
 };

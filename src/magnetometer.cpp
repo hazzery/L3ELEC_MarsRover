@@ -111,11 +111,11 @@ void Magnetometer::calibrate()
   } //while(calibrating)
 }
 
-int Magnetometer::getX()
+int Magnetometer::getX() const
 { return x; }
-int Magnetometer::getY()
+int Magnetometer::getY() const
 { return y; }
-int Magnetometer::getZ()
+int Magnetometer::getZ() const
 { return z; }
 
 double Magnetometer::getBearing(AngleUnits angleUnit = radians)
