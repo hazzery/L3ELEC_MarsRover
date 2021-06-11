@@ -47,16 +47,17 @@ void loop()
 {
   double currentBearing = mag.getBearing(degrees);//21.31° E  ± 0.35°  changing by  0.09° E per year
 
-  bearingPID.calculate(currentBearing);
-  double motorPower = bearingPID.output();
+  bearingPID.setTarget(180);
+
+  double motorPower = bearingPID.calculate(currentBearing);
+
+  rover.turn(motorPower);
 
   Serial.print("Current: ");
   Serial.println(currentBearing);
   Serial.print("_Output: ");
   Serial.println(motorPower);
   Serial.println("");
-
-  rover.turn(motorPower);
 
   delay(50);
 }
