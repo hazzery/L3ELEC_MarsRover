@@ -43,20 +43,34 @@ void setup()
   bearingPID.setTarget(180);
 }
 
+
 void loop()
 {
   double currentBearing = mag.getBearing(degrees);//21.31° E  ± 0.35°  changing by  0.09° E per year
+  double requiredbearing = Coords::getBearing(currentPosition, finishingPosition, degrees);
 
-  bearingPID.calculate(currentBearing);
-  double motorPower = bearingPID.output();
+  if (currentBearing < requiredbearing) currentBearing += 360;  // denormalize ...
+  int left = currentBearing - requiredbearing;   // calculate left turn, will allways be 0..359  
+
+  // take the smallest turn
+  if (left < 180) 
+  {
+    // Turn left : left degrees
+  }
+  else
+  {
+    // Turn right : 360-left degrees
+  }
+
+  // bearingPID.setTarget(180);
+  // double motorPower = bearingPID.calculate(currentBearing);
+  // rover.turn(motorPower);
 
   Serial.print("Current: ");
   Serial.println(currentBearing);
   Serial.print("_Output: ");
   Serial.println(motorPower);
   Serial.println("");
-
-  rover.turn(motorPower);
 
   delay(50);
 }

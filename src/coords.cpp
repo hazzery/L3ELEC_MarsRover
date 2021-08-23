@@ -21,9 +21,9 @@ double Coords::getLon(AngleUnits angleUnit = radians) const
     return longitude * RAD_TO_DEG;
 }
 
-double Coords::getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m) const
+double Coords::getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m)
 {
-  const int earthRadius = 6371000;
+  constexpr int earthRadius = 6371000;
  
   //This portion calculates the differences for the Radian latitudes and longitudes and saves them to variables
   double diffLon = b.getLon() - a.getLon();
@@ -37,7 +37,7 @@ double Coords::getDistance(Coords a, Coords b, DistanceUnits distanceUnit = m) c
   return distance / pow(10, (int)distanceUnit);
 }
 
-double Coords::getBearing(Coords a, Coords b, AngleUnits angleUnit = radians) const
+double Coords::getBearing(Coords a, Coords b, AngleUnits angleUnit = radians)
 {
   double diffLon = abs(a.getLon() - b.getLon());
 

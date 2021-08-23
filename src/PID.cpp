@@ -42,7 +42,7 @@ double PID::calculate(double sensorValue)
     //Save previous error.
     _pastError = _error;
 
-    return = output;
+    return output;
 }
 
 int PID::status() 
