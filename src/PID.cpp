@@ -1,7 +1,6 @@
+#include "../include/sign.h"
 #include "../include/PID.h"
 #include <arduino.h>
-
-#define sgn(x) (((x) < 0) ? -(x) : (x))
 
 //PID class constructor, sets member variables
 PID::PID(double kp, double ki, double kd)

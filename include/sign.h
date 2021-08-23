@@ -1,0 +1,1 @@
+extern inline int8_t sgn(int val);
