@@ -38,3 +38,13 @@
 //     lcd.setCursor(5, 3);
 //     lcd.print((int)GPS.satellites);
 // }
+// void rotateToBearing(int requiredBearing)
+// {
+//   bearingPID.setTarget(requiredBearing);
+
+//   double currentBearing = mag.getBearing(degrees);//21.31° E  ± 0.35°  changing by  0.09° E per year
+
+//   double motorPower = bearingPID.calculate(currentBearing);
+
+//   rover.turn(motorPower);
+// }
